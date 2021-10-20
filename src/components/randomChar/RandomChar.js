@@ -23,15 +23,16 @@ class RandomChar extends Component {
         this.setState({loading: true})
     }
 
-    componentDidMount() {
-        this.updateChar();
-    }
 
     onError = () => {
         this.setState({
             loading: false,
             error: true
         })
+    }
+
+    componentDidMount() {
+        this.updateChar();
     }
 
     updateChar = () => {
@@ -45,6 +46,7 @@ class RandomChar extends Component {
 
     render() {
         const {char, loading, error} = this.state,
+
             errorMessage = error ? <ErrorMessage/> : null,
             spinner = loading ? <Spinner/> : null,
             content = !(loading || error) ? <View char={char}/> : null
@@ -77,7 +79,7 @@ const View = ({char}) => {
 
     const descr = () => {
         if (!description) {
-            return 'No description.'
+            return 'For this character not is description.'
         } else if (description.length >= 228) {
             return description.substr(0, 228) + '...'
         } else {
@@ -85,7 +87,7 @@ const View = ({char}) => {
         }
     }
 
-    let objFit = thumbnail.match(/image_not/) ? 'contain' : 'cover';
+    const objFit = thumbnail.match(/image_not/) ? 'contain' : 'cover';
 
     return (
         <div className="randomchar__block">
