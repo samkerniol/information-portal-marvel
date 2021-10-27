@@ -1,4 +1,5 @@
-import {Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import './charList.scss';
 import MarvelService from '../../services/MarvelService';
@@ -57,13 +58,23 @@ class CharList extends Component {
         })
     }
 
+    onFocusItem = elem => {
+        elem.target.parentNode.childNodes.forEach(item => item.classList.remove('char__item_selected'))
+        elem.target.classList.add('char__item_selected')
+    }
+
     renderItems(arr) {
-        const items =  arr.map((item) => {
+        const items =  arr.map((item, i) => {
             const objFit = item.thumbnail.match(/image_not/) ? 'unset' : 'cover';
             
             return (
                 <li 
                     className="char__item"
+                    tabIndex={0}
+                    onFocus={elem => {
+                        this.props.onCharSelected(item.id)
+                        this.onFocusItem(elem)
+                    }}
                     key={item.id}
                     onClick={() => this.props.onCharSelected(item.id)}>
                         <img src={item.thumbnail} alt={item.name} style={{objectFit: objFit}}/>
@@ -102,6 +113,10 @@ class CharList extends Component {
             </div>
         )
     }
+}
+
+CharList.propTypes = {
+    onCharSelected: PropTypes.func.isRequired
 }
 
 export default CharList;
