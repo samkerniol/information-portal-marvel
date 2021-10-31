@@ -2,35 +2,27 @@ import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
 import './charList.scss';
-import MarvelService from '../../services/MarvelService'
+import useMarvelService from '../../services/MarvelService'
 
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
 
 const CharList = props => {
     const [charList, setCharList] = useState([]),
-        [loading, setLoading] = useState(true),
-        [error, setError] = useState(false),
         [newItemLoading, setNewItemLoading] = useState(false),
         [offset, setOffset] = useState(210),
         [charEnded, setCharEnded] = useState(false),
 
-        marvelService = new MarvelService()
+        {loading, error, getAllCharacters} = useMarvelService()
     
     useEffect(() => {
-        onRequest()  
+        onRequest(offset, true)  
     }, [])
 
-    const onRequest = offset => {
-        onCharListLoading()
+    const onRequest = (offset, initial) => {
+        initial ? setNewItemLoading(false) : setNewItemLoading(true) 
         
-        marvelService.getAllCharacters(offset)
-            .then(onCharListLoaded)
-            .catch(onError)
-    }
-
-    const onCharListLoading = () => {
-        setNewItemLoading(true)
+        getAllCharacters(offset).then(onCharListLoaded)
     }
 
     const onCharListLoaded = newCharList => {
@@ -41,15 +33,9 @@ const CharList = props => {
         }
 
         setCharList(charList => [...charList, ...newCharList])
-        setLoading(false)
         setNewItemLoading(false)
         setOffset(offset => offset  + 9)
         setCharEnded(ended)
-    }
-
-    const onError = () => {
-        setError(true)
-        setLoading(false)
     }
 
     const FocusOnItem = elem => {
@@ -86,14 +72,13 @@ const CharList = props => {
     const items = renderItems(charList),
 
         errorMessage = error ? <ErrorMessage/> : null,
-        spinner = loading ? <Spinner/> : null,
-        content = !(loading || error) ? items : null
+        spinner = loading && !newItemLoading ? <Spinner/> : null
 
     return (
         <div className="char__list">
             {errorMessage}
             {spinner}
-            {content}
+            {items}
             <button
                 className="button button__main button__long"
                 disabled={newItemLoading}
