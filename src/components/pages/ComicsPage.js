@@ -1,11 +1,11 @@
-import ComicsCatalog from '../comicsCatalog/ComicsCatalog'
+import ComicsList from '../comicsList/ComicsList'
 import AppBanner from '../appBanner/AppBanner'
 
 const ComicsPage = () => {
     return (
         <>
             <AppBanner/>
-            <ComicsCatalog/>
+            <ComicsList/>
         </>
     )
 }

@@ -9,32 +9,43 @@ const useMarvelService = () => {
 
     const getAllItemsData = async (get, viewLimit, offset = _baseOffset) => {
         const res = await request(`${_apiBase + get}?limit=${viewLimit}&offset=${offset}&${_apiKey}`)
-        return res.data.results.map(item => _transformItemsData(item, get))
+        return res.data.results.map(item => _transformItemsData(get, item))
     }
 
-    const getItemData = async (id, get) => {
+    const getItemData = async (get, id) => {
         const res = await request(`${_apiBase + get}/${id}?&${_apiKey}`)
-        return _transformItemsData(res.data.results[0])
+        return _transformItemsData(get, res.data.results[0])
     }
 
-    const _transformItemsData = (item, get) => {
+    const _transformItemsData = (get, item) => {
         if (get === 'comics') {
             return {
                 id: item.id,
                 title: item.title,
+                description: item.description || 'There is no description',
+                pageCount: item.pageCount ? `${item.pageCount} p.` : 'No information about the number of pages',
                 thumbnail: item.thumbnail.path + '.' + item.thumbnail.extension,
-                price: item.prices[0].price
+                language: item.textObjects.language || 'en-us',
+                price: item.prices[0].price || 'not available'
             }
-        }
+        } else {
+            let comicsData = []
 
-        return {
-            id: item.id,
-            name: item.name,
-            description: item.description,
-            thumbnail: item.thumbnail.path + '.' + item.thumbnail.extension,
-            homepage: item.urls[0].url,
-            wiki: item.urls[1].url,
-            comics: item.comics.items
+            if (item.comics.items.length !== 0) {
+                for (let i = 0; i < 10; i++) {
+                    comicsData.push(item.comics.items[i])
+                }
+            }
+
+            return {
+                id: item.id,
+                name: item.name,
+                description: item.description,
+                thumbnail: item.thumbnail.path + '.' + item.thumbnail.extension,
+                homepage: item.urls[0].url,
+                wiki: item.urls[1].url,
+                comics: comicsData
+            }   
         }
     }
 

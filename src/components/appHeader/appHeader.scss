@@ -4,6 +4,7 @@
     &__header {
         display: flex;
         justify-content: space-between;
+        z-index: 5;
     }
     &__title {
         font-weight: bold;

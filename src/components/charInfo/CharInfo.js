@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
 import useMarvelService from '../../services/MarvelService'
 
@@ -23,8 +24,7 @@ const CharInfo = props => {
         }
 
         clearError()
-
-        getItemData(props.charId, 'characters').then(onCharLoaded)
+        getItemData('characters', props.charId).then(onCharLoaded)
     }
 
     const onCharLoaded = char => {
@@ -36,7 +36,20 @@ const CharInfo = props => {
         spinner = loading ? <Spinner/> : null,
         content = !(loading || error || !char) ? <View char={char}/> : null
 
-    
+    useEffect(() => {
+        const blockInfo = document.querySelector('.char__info')
+
+        const setStyle = () => {
+            blockInfo.style = window.scrollY > 437 ? 'position: sticky; top: 0px;' : 'position: unset;'
+        }
+
+        window.addEventListener('scroll', setStyle)
+
+        return () => {
+            window.removeEventListener('scroll', setStyle)
+        }
+    }, [])
+
     return (
         <div className="char__info">
             {skeleton}
@@ -50,7 +63,23 @@ const CharInfo = props => {
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = char,
 
-        style = {objectFit: thumbnail.match(/image_not/) ? 'contain' : 'cover'};
+        style = {objectFit: thumbnail.match(/image_not/) ? 'contain' : 'cover'}
+
+    const renderComicsList = () => {
+        if (comics.length === 0 ) {
+            return 'Comics with this character is not.'
+        } else {
+            return comics.map((comic, i) => {
+                let id = comic.resourceURI.substr(comic.resourceURI.indexOf('comics/') + 'comics/'.length)
+
+                return (
+                    <li key={i} className="char__comics-item">
+                        <Link to={`/comics/${id}`}>{comic.name}</Link>
+                    </li>
+                )
+            })
+        }
+    }
 
     return (
         <>
@@ -73,19 +102,7 @@ const View = ({char}) => {
             </div>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
-                {comics.length === 0 ? 'Comics with this character is not.' : null}
-                {
-                    // eslint-disable-next-line
-                    comics.map((item, i) => {
-                        if (i < 10) {
-                            return (
-                                <li key={i} className="char__comics-item">
-                                    {item.name}
-                                </li>
-                            )
-                        }
-                    })
-                }
+                {renderComicsList()}
             </ul>
         </>
     )

@@ -18,7 +18,7 @@ const RandomChar = () => {
         clearError()
 
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
-        getItemData(id, 'characters').then(onCharLoaded)
+        getItemData('characters', id).then(onCharLoaded)
     }
 
     const onCharLoaded = char => {
