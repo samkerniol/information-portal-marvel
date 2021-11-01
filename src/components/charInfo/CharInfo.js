@@ -11,7 +11,7 @@ import './charInfo.scss'
 
 const CharInfo = props => {
     const [char, setChar] = useState(null),
-        {loading, error, getCharacter, clearError} = useMarvelService()
+        {loading, error, getItemData, clearError} = useMarvelService()
 
     useEffect(() => {
         updateChar()
@@ -24,7 +24,7 @@ const CharInfo = props => {
 
         clearError()
 
-        getCharacter(props.charId).then(onCharLoaded)
+        getItemData(props.charId, 'characters').then(onCharLoaded)
     }
 
     const onCharLoaded = char => {
@@ -50,12 +50,12 @@ const CharInfo = props => {
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = char,
 
-        objFit = thumbnail.match(/image_not/) ? 'contain' : 'cover'
+        style = {objectFit: thumbnail.match(/image_not/) ? 'contain' : 'cover'};
 
     return (
         <>
             <div className="char__basics">
-                <img src={thumbnail} alt={name} style={{objectFit: objFit}}/>
+                <img src={thumbnail} alt={name} style={style}/>
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">

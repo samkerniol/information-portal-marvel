@@ -13,7 +13,7 @@ const CharList = props => {
         [offset, setOffset] = useState(210),
         [charEnded, setCharEnded] = useState(false),
 
-        {loading, error, getAllCharacters} = useMarvelService()
+        {loading, error, getAllItemsData} = useMarvelService()
     
     useEffect(() => {
         onRequest(offset, true)  
@@ -22,7 +22,7 @@ const CharList = props => {
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true) 
         
-        getAllCharacters(offset).then(onCharListLoaded)
+        getAllItemsData('characters', 9, offset).then(onCharListLoaded)
     }
 
     const onCharListLoaded = newCharList => {
@@ -45,7 +45,7 @@ const CharList = props => {
 
     function renderItems(arr) {
         const items =  arr.map((item, i) => {
-            const objFit = item.thumbnail.match(/image_not/) ? 'unset' : 'cover';
+            const style = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}
             
             return (
                 <li 
@@ -57,7 +57,7 @@ const CharList = props => {
                     }}
                     key={item.id}
                     onClick={() => props.onCharSelected(item.id)}>
-                        <img src={item.thumbnail} alt={item.name} style={{objectFit: objFit}}/>
+                        <img src={item.thumbnail} alt={item.name} style={style}/>
                         <div className="char__name">{item.name}</div>
                 </li>
             )

@@ -8,7 +8,7 @@ import mjolnir from '../../resources/img/mjolnir.png'
 
 const RandomChar = () => {
     const [char, setChar] = useState({}),
-        {loading, error, getCharacter, clearError} = useMarvelService()
+        {loading, error, getItemData, clearError} = useMarvelService()
 
     useEffect(() => {
         updateChar()
@@ -18,7 +18,7 @@ const RandomChar = () => {
         clearError()
 
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
-        getCharacter(id).then(onCharLoaded)
+        getItemData(id, 'characters').then(onCharLoaded)
     }
 
     const onCharLoaded = char => {
@@ -54,7 +54,7 @@ const RandomChar = () => {
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki} = char
 
-    let objFit
+    let style
 
     const descr = () => {
         if (!description) {
@@ -67,12 +67,12 @@ const View = ({char}) => {
     }
 
     if (thumbnail) {
-        objFit = thumbnail.match(/image_not/) ? 'contain' : 'cover'
+        style = {objectFit: thumbnail.match(/image_not/) ? 'contain' : 'cover'};
     }
 
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" style={{objectFit: objFit}}/>
+            <img src={thumbnail} alt="Random character" className="randomchar__img" style={{objectFit: style}}/>
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">
