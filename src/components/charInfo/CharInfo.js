@@ -70,13 +70,15 @@ const View = ({char}) => {
             return 'Comics with this character is not.'
         } else {
             return comics.map((comic, i) => {
-                let id = comic.resourceURI.substr(comic.resourceURI.indexOf('comics/') + 'comics/'.length)
+                if (comic) {
+                    let id = comic['resourceURI'].substr(comic['resourceURI'].indexOf('comics/') + 'comics/'.length)
 
-                return (
-                    <li key={i} className="char__comics-item">
-                        <Link to={`/comics/${id}`}>{comic.name}</Link>
-                    </li>
-                )
+                    return (
+                        <li key={i} className="char__comics-item">
+                            <Link to={`/comics/${id}`}>{comic.name}</Link>
+                        </li>
+                    )
+                }
             })
         }
     }

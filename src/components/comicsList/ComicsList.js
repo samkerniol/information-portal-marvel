@@ -13,7 +13,6 @@ const ComicsList = () => {
         [offset, setOffset] = useState(210),
         [comicEnded, setComicEnded] = useState(false),
         {pathname} = useLocation(),
-
         {loading, error, getAllItemsData} = useMarvelService()
 
     useEffect(() => {
@@ -22,7 +21,7 @@ const ComicsList = () => {
 
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true) 
-        
+
         getAllItemsData('comics', 8, offset).then(onComicsItemsLoaded)
     }
 
@@ -52,7 +51,11 @@ const ComicsList = () => {
             )
         })
 
-        return items
+        return (
+            <ul className='comics__items'>
+                {items}
+            </ul>
+        )
     }
 
     const items = renderItems(comicsItems),
@@ -64,9 +67,7 @@ const ComicsList = () => {
         <div className='comics' style={{display: pathname !== '/comics' ? 'none' : 'block'}}>
             {errorMessage}
             {spinner}
-            <ul className='comics__items'>
-                {items}
-            </ul>
+            {items}
             <button
                 className="button button__main button__long"
                 disabled={newItemLoading}

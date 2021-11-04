@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
 import './charList.scss';
 import useMarvelService from '../../services/MarvelService'
@@ -12,7 +13,6 @@ const CharList = props => {
         [newItemLoading, setNewItemLoading] = useState(false),
         [offset, setOffset] = useState(210),
         [charEnded, setCharEnded] = useState(false),
-
         {loading, error, getAllItemsData} = useMarvelService()
     
     useEffect(() => {
@@ -44,27 +44,31 @@ const CharList = props => {
     }
 
     function renderItems(arr) {
-        const items =  arr.map((item, i) => {
+        const items = arr.map(item => {
             const style = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}
             
             return (
-                <li 
-                    className="char__item"
-                    tabIndex={0}
-                    onFocus={elem => {
-                        props.onCharSelected(item.id)
-                        FocusOnItem(elem)
-                    }}
-                    key={item.id}
-                    onClick={() => props.onCharSelected(item.id)}>
+                <CSSTransition key={item.id} timeout={500} classNames="char__item">
+                    <li 
+                        className="char__item"
+                        tabIndex={0}
+                        onFocus={elem => {
+                            props.onCharSelected(item.id)
+                            FocusOnItem(elem)
+                        }}
+                        onClick={() => props.onCharSelected(item.id)}>
                         <img src={item.thumbnail} alt={item.name} style={style}/>
                         <div className="char__name">{item.name}</div>
-                </li>
+                    </li>
+            </CSSTransition>
             )
         });
+
         return (
             <ul className="char__grid">
-                {items}
+                <TransitionGroup component={null}>
+                    {items}
+                </TransitionGroup>
             </ul>
         )
     }
