@@ -36,20 +36,6 @@ const CharInfo = props => {
         spinner = loading ? <Spinner/> : null,
         content = !(loading || error || !char) ? <View char={char}/> : null
 
-    useEffect(() => {
-        const blockInfo = document.querySelector('.char__info')
-
-        const setStyle = () => {
-            blockInfo.style = window.scrollY > 437 ? 'position: sticky; top: 0px;' : 'position: unset;'
-        }
-
-        window.addEventListener('scroll', setStyle)
-
-        return () => {
-            window.removeEventListener('scroll', setStyle)
-        }
-    }, [])
-
     return (
         <div className="char__info">
             {skeleton}

@@ -5,9 +5,13 @@
         margin-top: 50px;
         display: grid;
         grid-template-columns: 650px 425px;
+        grid-template-rows: minmax(294px, auto);
         column-gap: 25px;
         align-items: start;
         transition: 1s transform;
+    }
+    &__list {
+        grid-row: 1/3;
     }
     &__grid {
         display: grid;

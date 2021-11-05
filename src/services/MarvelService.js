@@ -8,12 +8,18 @@ const useMarvelService = () => {
         _baseOffset = 210
 
     const getAllItemsData = async (get, viewLimit, offset = _baseOffset) => {
-        const res = await request(`${_apiBase + get}?limit=${viewLimit}&offset=${offset}&${_apiKey}`)
+        const res = await request(`${_apiBase + get}?${viewLimit ? 'limit=' + viewLimit : ''}&offset=${offset}&${_apiKey}`)
         return res.data.results.map(item => _transformItemsData(get, item))
     }
 
     const getItemData = async (get, id) => {
-        const res = await request(`${_apiBase + get}/${id}?&${_apiKey}`)
+        if (typeof(id) === 'number' || id.match(/\d/)) {
+            id = `/${id}?`
+        } else {
+            id = `?name=${id.replace(' ', '%20')}`
+        }
+
+        const res = await request(`${_apiBase + get}${id}&${_apiKey}`)
         return _transformItemsData(get, res.data.results[0])
     }
 
