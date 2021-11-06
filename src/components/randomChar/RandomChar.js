@@ -11,6 +11,7 @@ const RandomChar = () => {
 
     useEffect(() => {
         updateChar()
+        // eslint-disable-next-line
     }, [])
 
     const updateChar = () => {
@@ -37,7 +38,7 @@ const RandomChar = () => {
                 <p className="randomchar__title">
                     Or choose another one
                 </p>
-                <button className="button button__main" onClick={updateChar}>
+                <button className="button button__main" onClick={updateChar} disabled={process === 'loading'}>
                     <div className="inner">try it</div>
                 </button>
                 <img src={mjolnir} alt="mjolnir" className="randomchar__decoration"/>

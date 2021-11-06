@@ -25,6 +25,7 @@ const CharSearchForm = () => {
             })
             .catch(err => setCharId(null))
             .finally(setValueInput(value))
+        // eslint-disable-next-line
     }, [valueInput])
 
     const renderResult = () => {

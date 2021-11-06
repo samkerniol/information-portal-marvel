@@ -1,6 +1,5 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
-import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
 import './charList.scss';
 
@@ -31,6 +30,7 @@ const CharList = props => {
     
     useEffect(() => {
         onRequest(offset, true)
+        // eslint-disable-next-line
     }, [])
 
     const onRequest = (offset, initial) => {
@@ -64,34 +64,36 @@ const CharList = props => {
             const style = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}
             
             return (
-                <CSSTransition key={item.id} timeout={500} classNames="char__item">
-                    <li 
-                        className="char__item"
-                        tabIndex={0}
-                        onFocus={elem => {
-                            props.onCharSelected(item.id)
-                            FocusOnItem(elem)
-                        }}
-                        onClick={() => props.onCharSelected(item.id)}>
-                        <img src={item.thumbnail} alt={item.name} style={style}/>
-                        <div className="char__name">{item.name}</div>
-                    </li>
-                </CSSTransition>
+                <li 
+                    key={item.id}
+                    className="char__item"
+                    tabIndex={0}
+                    onFocus={elem => {
+                        props.onCharSelected(item.id)
+                        FocusOnItem(elem)
+                    }}
+                    onClick={() => props.onCharSelected(item.id)}>
+                    <img src={item.thumbnail} alt={item.name} style={style}/>
+                    <div className="char__name">{item.name}</div>
+                </li>
             )
         });
 
         return (
             <ul className="char__grid">
-                <TransitionGroup component={null}>
-                    {items}
-                </TransitionGroup>
+                {items}
             </ul>
         )
     }
 
+    const elements = useMemo(() => {
+        return setContent(process, () => renderItems(charList), newItemLoading)
+        // eslint-disable-next-line
+    }, [process])
+
     return (
         <div className="char__list">
-            {setContent(process, () => renderItems(charList), newItemLoading)}
+            {elements}
             <button
                 className="button button__main button__long"
                 disabled={newItemLoading}
