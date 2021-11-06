@@ -3,17 +3,31 @@ import PropTypes from 'prop-types'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
 import './charList.scss';
+
 import useMarvelService from '../../services/MarvelService'
 
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
+
+const setContent = (process, Component, newItemLoading) => {
+    switch(process) {
+        case 'waiting':
+            return <Spinner/>
+        case 'loading':
+            return newItemLoading ? <Component/> : <Spinner/>
+        case 'confirmed':
+            return <Component/>
+        default:
+            return <ErrorMessage/>
+    }
+}
 
 const CharList = props => {
     const [charList, setCharList] = useState([]),
         [newItemLoading, setNewItemLoading] = useState(false),
         [offset, setOffset] = useState(210),
         [charEnded, setCharEnded] = useState(false),
-        {loading, error, getAllItemsData} = useMarvelService()
+        {getAllItemsData, process, setProcess} = useMarvelService()
     
     useEffect(() => {
         onRequest(offset, true)
@@ -22,7 +36,9 @@ const CharList = props => {
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true) 
         
-        getAllItemsData('characters', 9, offset).then(onCharListLoaded)
+        getAllItemsData('characters', 9, offset)
+            .then(onCharListLoaded)
+            .then(() => setProcess('confirmed'))
     }
 
     const onCharListLoaded = newCharList => {
@@ -60,7 +76,7 @@ const CharList = props => {
                         <img src={item.thumbnail} alt={item.name} style={style}/>
                         <div className="char__name">{item.name}</div>
                     </li>
-            </CSSTransition>
+                </CSSTransition>
             )
         });
 
@@ -72,21 +88,14 @@ const CharList = props => {
             </ul>
         )
     }
-    
-    const items = renderItems(charList),
-
-        errorMessage = error ? <ErrorMessage/> : null,
-        spinner = loading && !newItemLoading ? <Spinner/> : null
 
     return (
         <div className="char__list">
-            {errorMessage}
-            {spinner}
-            {items}
+            {setContent(process, () => renderItems(charList), newItemLoading)}
             <button
                 className="button button__main button__long"
                 disabled={newItemLoading}
-                style={{display: charEnded || spinner ? 'none' : 'block'}}
+                style={{display: charEnded || ('loading' === process && !newItemLoading) ? 'none' : 'block'}}
                 onClick={() => onRequest(offset)}>
                 <div className="inner">load more</div>
             </button>

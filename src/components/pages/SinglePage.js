@@ -2,16 +2,15 @@ import {useParams} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 
 import useMarvelService from '../../services/MarvelService'
+import setContent from '../../utils/setContent'
+
 import SingleComicLayout from './singlePagesLayout/SingleComicLayout'
 import SingleCharacterLayout from './singlePagesLayout/SingleCharacterLayout'
-
-import Spinner from '../spinner/Spinner'
-import ErrorMessage from '../errorMessage/ErrorMessage'
 
 const SinglePage = () => {
     const {id} = useParams(),
         [data, setData] = useState(null),
-        {loading, error, getItemData, clearError} = useMarvelService(),
+        {getItemData, clearError, process, setProcess} = useMarvelService(),
         category = id.length === 7 ? 'characters' : 'comics'
 
     useEffect(() => {
@@ -20,23 +19,20 @@ const SinglePage = () => {
 
     const updateData = () => {
         clearError()
-        getItemData(category, id).then(onDataLoaded)
+        getItemData(category, id)
+            .then(onDataLoaded)
+            .then(() => setProcess('confirmed'))
     }
 
     const onDataLoaded = data => {
         setData(data)
     }
 
-    const errorMessage = error ? <ErrorMessage/> : null,
-        spinner = loading ? <Spinner/> : null,
-        page = category === 'characters' ? <SingleCharacterLayout data={data}/> : <SingleComicLayout data={data}/>,
-        content = !(loading || error || !data) ? page : null
+    const component = category === 'characters' ? <SingleCharacterLayout data={data}/> : <SingleComicLayout data={data}/>
 
     return (
         <>
-            {errorMessage}
-            {spinner}
-            {content}
+            {setContent(process, () => component, data)}
         </>
     )
 }

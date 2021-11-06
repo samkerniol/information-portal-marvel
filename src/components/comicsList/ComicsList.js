@@ -7,13 +7,26 @@ import useMarvelService from '../../services/MarvelService'
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
 
+const setContent = (process, Component, newItemLoading) => {
+    switch(process) {
+        case 'waiting':
+            return <Spinner/>
+        case 'loading':
+            return newItemLoading ? <Component/> : <Spinner/>
+        case 'confirmed':
+            return <Component/>
+        default:
+            return <ErrorMessage/>
+    }
+}
+
 const ComicsList = () => {
     const [comicsItems, setComicsItems] = useState([]),
         [newItemLoading, setNewItemLoading] = useState(false),
         [offset, setOffset] = useState(210),
         [comicEnded, setComicEnded] = useState(false),
         {pathname} = useLocation(),
-        {loading, error, getAllItemsData} = useMarvelService()
+        {getAllItemsData, process, setProcess} = useMarvelService()
 
     useEffect(() => {
         onRequest(offset, true)
@@ -22,7 +35,9 @@ const ComicsList = () => {
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true) 
 
-        getAllItemsData('comics', 8, offset).then(onComicsItemsLoaded)
+        getAllItemsData('comics', 8, offset)
+            .then(onComicsItemsLoaded)
+            .then(() => setProcess('confirmed'))
     }
 
     const onComicsItemsLoaded = newComicsItems => {
@@ -58,20 +73,13 @@ const ComicsList = () => {
         )
     }
 
-    const items = renderItems(comicsItems),
-
-        errorMessage = error ? <ErrorMessage/> : null,
-        spinner = loading && !newItemLoading ? <Spinner/> : null
-
     return (
         <div className='comics' style={{display: pathname !== '/comics' ? 'none' : 'block'}}>
-            {errorMessage}
-            {spinner}
-            {items}
+            {setContent(process, () => renderItems(comicsItems), newItemLoading)}
             <button
                 className="button button__main button__long"
                 disabled={newItemLoading}
-                style={{display: comicEnded || spinner ? 'none' : 'block'}}
+                style={{display: comicEnded || ('loading' === process && !newItemLoading) ? 'none' : 'block'}}
                 onClick={() => onRequest(offset)}>
                 <div className="inner">load more</div>
             </button>
