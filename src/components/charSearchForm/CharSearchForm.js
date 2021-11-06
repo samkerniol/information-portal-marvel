@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {useState} from 'react'
+import {useState, useCallback} from 'react'
 import {Link} from 'react-router-dom'
 
 import useMarvelService from '../../services/MarvelService'
@@ -10,16 +10,22 @@ const CharSearchForm = () => {
     const {register, formState: {errors}, handleSubmit} = useForm(),
         [charId, setCharId] = useState(''),
         [charName, setCharName] = useState(''),
-        {getItemData} = useMarvelService()
+        {getItemData} = useMarvelService(),
+        [valueInput, setValueInput] = useState('')
 
-    const onSubmit = value => {
+    const onSubmit = useCallback(value => {
+        if (valueInput['name'] === value['name']) {
+            return
+        }
+        
         getItemData('characters', value['name'])
             .then(res => {
                 setCharId(res['id'])
                 setCharName(res['name'])
             })
-            .catch(err => {setCharId(null)})
-    }
+            .catch(err => setCharId(null))
+            .finally(setValueInput(value))
+    }, [valueInput])
 
     const renderResult = () => {
         if (charId) {

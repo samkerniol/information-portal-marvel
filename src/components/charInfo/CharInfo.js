@@ -64,6 +64,8 @@ const View = ({char}) => {
                             <Link to={`/comics/${id}`}>{comic.name}</Link>
                         </li>
                     )
+                } else {
+                    return false
                 }
             })
         }

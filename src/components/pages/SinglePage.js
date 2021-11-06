@@ -2,8 +2,8 @@ import {useParams} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 
 import useMarvelService from '../../services/MarvelService'
-import SingleComicLayout from './singleComicLayout/SingleComicLayout'
-import SingleCharacterLayout from './singleCharacterLayout/SingleCharacterLayout'
+import SingleComicLayout from './singlePagesLayout/SingleComicLayout'
+import SingleCharacterLayout from './singlePagesLayout/SingleCharacterLayout'
 
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'

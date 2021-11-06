@@ -1,6 +1,6 @@
 @import '../../../style/variables.scss';
 
-.single-char {
+.single-page {
     margin-top: 50px;
     display: grid;
     grid-template-columns: 293px 550px auto;
@@ -8,7 +8,10 @@
     align-items: start;
     &__img {
         width: 293px;
-        height: 293px;
+        height: 450px;
+        &_height {
+            height: 293px;
+        }
     }
     &__name {
         font-weight: bold;
@@ -26,8 +29,16 @@
         font-size: 18px;
         line-height: 24px;
         cursor: pointer;
+        border:none;
+        background-color: #FFFFFF;
         &:hover {
             color: $main-color;
         }
+    }
+    &__price {
+        margin-top: 25px;
+        font-weight: bold;
+        font-size: 24px;
+        color: #9F0013;
     }
 }
