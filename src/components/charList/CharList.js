@@ -54,9 +54,20 @@ const CharList = props => {
         setCharEnded(ended)
     }
 
-    const FocusOnItem = elem => {
-        elem.target.parentNode.childNodes.forEach(item => item.classList.remove('char__item_selected'))
-        elem.target.classList.add('char__item_selected')
+    const eventOnItem = (e, id) => {
+        if (e['type'] === 'click' || 'keypress') {
+            const target = e.target.closest('.char__item'),
+                actives = target.parentNode.getElementsByClassName('char__item_selected')
+
+            if (actives[0]) {
+                actives[0].classList.remove('char__item_selected')
+                target.classList.add('char__item_selected')
+            } else {
+                target.classList.add('char__item_selected')
+            }
+
+            props.onCharSelected(id)
+        }
     }
 
     function renderItems(arr) {
@@ -68,11 +79,12 @@ const CharList = props => {
                     key={item.id}
                     className="char__item"
                     tabIndex={0}
-                    onFocus={elem => {
-                        props.onCharSelected(item.id)
-                        FocusOnItem(elem)
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                            eventOnItem(e, item.id)
+                        }
                     }}
-                    onClick={() => props.onCharSelected(item.id)}>
+                    onClick={e => eventOnItem(e, item.id)}>
                     <img src={item.thumbnail} alt={item.name} style={style}/>
                     <div className="char__name">{item.name}</div>
                 </li>
