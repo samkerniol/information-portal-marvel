@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {Link, useLocation} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 import './comicsList.scss'
 
@@ -24,8 +24,6 @@ const ComicsList = () => {
     const [comicsItems, setComicsItems] = useState([]),
         [newItemLoading, setNewItemLoading] = useState(false),
         [offset, setOffset] = useState(210),
-        [comicEnded, setComicEnded] = useState(false),
-        {pathname} = useLocation(),
         {getAllItemsData, process, setProcess} = useMarvelService()
 
     useEffect(() => {
@@ -42,22 +40,21 @@ const ComicsList = () => {
     }
 
     const onComicsItemsLoaded = newComicsItems => {
-        let ended = false
-
-        if (newComicsItems.length < 8) {
-            ended = true
-        }
-
         setComicsItems(comicsItem => [...comicsItem, ...newComicsItems])
         setNewItemLoading(false)
         setOffset(offset => offset  + 9)
-        setComicEnded(ended)
     }
 
     function renderItems(arr) {
         const items = arr.map(({id, title, thumbnail, price}, i) => {
+            let fadeIn = process !== 'loading' ? ' fadeIn' : ''
+
+            if (arr.length > 8 && i < arr.length - 8) {
+                fadeIn = ''
+            }
+
             return (
-                <li className='comics__item' key={i}>
+                <li className={'comics__item' + fadeIn} key={i}>
                     <Link to={`/comics/${id}`}>
                         <img className='comics__item-thumbnail' src={thumbnail} alt={title}/>
                         <h1 className='comics__item-title'>{title}</h1>
@@ -75,15 +72,16 @@ const ComicsList = () => {
     }
 
     return (
-        <div className='comics' style={{display: pathname !== '/comics' ? 'none' : 'block'}}>
+        <div className='comics'>
             {setContent(process, () => renderItems(comicsItems), newItemLoading)}
-            <button
-                className="button button__main button__long"
-                disabled={newItemLoading}
-                style={{display: comicEnded || ('loading' === process && !newItemLoading) ? 'none' : 'block'}}
-                onClick={() => onRequest(offset)}>
-                <div className="inner">load more</div>
-            </button>
+            {process !== 'loading' || newItemLoading ?
+                <button
+                    className="button button__main button__long"
+                    disabled={newItemLoading}
+                    onClick={() => onRequest(offset)}>
+                    <div className="inner">load more</div>
+                </button>
+            : null}
         </div>
     )
 }

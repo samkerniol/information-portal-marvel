@@ -65,7 +65,7 @@ const View = ({data}) => {
 
     return (
         <>
-            <div className="char__basics">
+            <div className="char__basics fadeIn">
                 <img src={thumbnail} alt={name} style={style}/>
                 <div>
                     <div className="char__info-name">{name}</div>
@@ -79,11 +79,11 @@ const View = ({data}) => {
                     </div>
                 </div>
             </div>
-            <div className="char__descr">
+            <div className="char__descr fadeIn">
                {!description ? 'For this character not is description.' : description}
             </div>
-            <div className="char__comics">Comics:</div>
-            <ul className="char__comics-list">
+            <div className="char__comics fadeIn">Comics:</div>
+            <ul className="char__comics-list fadeIn">
                 {renderComicsList()}
             </ul>
         </>

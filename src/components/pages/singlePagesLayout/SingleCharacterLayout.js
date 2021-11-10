@@ -8,7 +8,7 @@ const SingleCharacterLayout = ({data}) => {
         history = useHistory()
 
     return (
-        <div className="single-page">
+        <div className="single-page fadeIn">
             <Helmet>
                 <meta
                     name="description"

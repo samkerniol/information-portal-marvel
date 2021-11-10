@@ -17,17 +17,10 @@ const App = () => {
                 <main>
                     <Suspense fallback={<Spinner/>}>
                         <Switch>
-                            <Route exact path="/">
-                                <MainPage/>
-                            </Route>
-
+                            <Route exact path="/" component={MainPage}/>
                             <Route exact path="/characters/:id" component={SinglePage}/>
-
-                            <Route path="/comics">
-                                <ComicsPage/>
-                                <Route path="/comics/:id" component={SinglePage}/>
-                            </Route>
-
+                            <Route exact path="/comics" component={ComicsPage}/>
+                            <Route exact path="/comics/:id" component={SinglePage}/>
                             <Route path="*" component={Page404}/>
                         </Switch>
                     </Suspense>

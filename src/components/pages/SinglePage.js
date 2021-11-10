@@ -7,6 +7,8 @@ import setContent from '../../utils/setContent'
 import SingleComicLayout from './singlePagesLayout/SingleComicLayout'
 import SingleCharacterLayout from './singlePagesLayout/SingleCharacterLayout'
 
+import AppBanner from '../appBanner/AppBanner'
+
 const SinglePage = () => {
     const {id} = useParams(),
         [data, setData] = useState(null),
@@ -33,6 +35,7 @@ const SinglePage = () => {
 
     return (
         <>
+            <AppBanner/>
             {setContent(process, () => component, data)}
         </>
     )

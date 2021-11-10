@@ -32,8 +32,8 @@ const CharSearchForm = () => {
         if (charId) {
             return (
                 <>
-                    <div className='char__search-msg char__search-msg_found'>There is! Visit {charName} page?</div>
-                    <Link to={`/characters/${charId}`} className='button button__secondary'>
+                    <div className='char__search-msg char__search-msg_found fadeIn'>There is! Visit {charName} page?</div>
+                    <Link to={`/characters/${charId}`} className='button button__secondary fadeIn'>
                         <div className="inner">TO PAGE</div>
                     </Link>
                 </>

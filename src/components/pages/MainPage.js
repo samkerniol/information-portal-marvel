@@ -7,8 +7,6 @@ import CharInfo from "../charInfo/CharInfo"
 import ErrorBoundary from '../errorBoundary/ErrorBoundary'
 import CharSearchForm from '../charSearchForm/CharSearchForm'
 
-import decoration from '../../resources/img/vision.png'
-
 const MainPage = () => {
     const [selectedChar, setChar] = useState(null)
 
@@ -41,8 +39,6 @@ const MainPage = () => {
                     </div>
                 </ErrorBoundary>
             </div>
-
-            <img className="bg-decoration" src={decoration} alt="vision"/>
         </>
     )
 }

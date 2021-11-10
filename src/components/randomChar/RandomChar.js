@@ -55,8 +55,10 @@ const View = ({data}) => {
     const descr = () => {
         if (!description) {
             return 'For this character not is description.'
-        } else if (description.length >= 228) {
-            return description.substr(0, 228) + '...'
+        } else if (description.length >= 204) {
+            const descr = description.substr(0, 204)
+
+            return descr.substr(0, descr.lastIndexOf(' ')) + '...'
         } else {
             return description
         }
@@ -67,7 +69,7 @@ const View = ({data}) => {
     }
 
     return (
-        <div className="randomchar__block">
+        <div className="randomchar__block fadeIn">
             <img src={thumbnail} alt="Random character" className="randomchar__img" style={{objectFit: style}}/>
             <div className="randomchar__info">
                 <p className="randomchar__name" title={name}>{name.length > 22 ? name.substr(0, 21) + '...' : name}</p>

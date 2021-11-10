@@ -8,6 +8,8 @@ import useMarvelService from '../../services/MarvelService'
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
 
+import decoration from '../../resources/img/vision.png'
+
 const setContent = (process, Component, newItemLoading) => {
     switch(process) {
         case 'waiting':
@@ -71,13 +73,18 @@ const CharList = props => {
     }
 
     function renderItems(arr) {
-        const items = arr.map(item => {
-            const style = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}
+        const items = arr.map((item, i) => {
+            const objectFit = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}
+            let fadeIn = process !== 'loading' ? ' fadeIn' : ''
+
+            if (arr.length > 9 && i < arr.length - 9) {
+                fadeIn = ''
+            }
             
             return (
                 <li 
                     key={item.id}
-                    className="char__item"
+                    className={'char__item' + fadeIn}
                     tabIndex={0}
                     onKeyPress={e => {
                         if (e.key === 'Enter') {
@@ -85,7 +92,7 @@ const CharList = props => {
                         }
                     }}
                     onClick={e => eventOnItem(e, item.id)}>
-                    <img src={item.thumbnail} alt={item.name} style={style}/>
+                    <img src={item.thumbnail} alt={item.name} style={objectFit}/>
                     <div className="char__name">{item.name}</div>
                 </li>
             )
@@ -103,17 +110,24 @@ const CharList = props => {
         // eslint-disable-next-line
     }, [process])
 
+    const display = {display: charEnded || ('loading' === process && !newItemLoading) ? 'none' : 'block'}
+
     return (
-        <div className="char__list">
-            {elements}
-            <button
-                className="button button__main button__long"
-                disabled={newItemLoading}
-                style={{display: charEnded || ('loading' === process && !newItemLoading) ? 'none' : 'block'}}
-                onClick={() => onRequest(offset)}>
-                <div className="inner">load more</div>
-            </button>
-        </div>
+        <>
+            <div className="char__list">
+                {elements}
+                {process !== 'loading' || newItemLoading  ?
+                    <button
+                        className="button button__main button__long"
+                        disabled={newItemLoading}
+                        onClick={() => onRequest(offset)}
+                    >
+                        <div className="inner">load more</div>
+                    </button>
+                : null}
+            </div>
+            <img className="bg-decoration" src={decoration} alt="vision" style={display}/>
+        </>
     )
 }
 
