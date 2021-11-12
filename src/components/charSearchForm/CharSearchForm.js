@@ -57,7 +57,7 @@ const CharSearchForm = () => {
                 </button>
             </div>
             {errors.name?.type === 'required' && <div className='char__search-msg'>This field is required!</div>}
-            {errors.name?.type === 'pattern' && <div className='char__search-msg'>Only letters!</div>}
+            {errors.name?.type === 'pattern' && <div className='char__search-msg'>Only latin letters!</div>}
             {renderResult()}
         </form>
     )

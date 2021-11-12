@@ -28,6 +28,7 @@ const CharList = props => {
         [newItemLoading, setNewItemLoading] = useState(false),
         [offset, setOffset] = useState(210),
         [charEnded, setCharEnded] = useState(false),
+        [charId, setCharId] = useState(''),
         {getAllItemsData, process, setProcess} = useMarvelService()
     
     useEffect(() => {
@@ -69,6 +70,7 @@ const CharList = props => {
             }
 
             props.onCharSelected(id)
+            setCharId(id)
         }
     }
 
@@ -84,7 +86,7 @@ const CharList = props => {
             return (
                 <li 
                     key={item.id}
-                    className={'char__item' + fadeIn}
+                    className={'char__item' + fadeIn + (item.id === charId ? ' char__item_selected' : '')}
                     tabIndex={0}
                     onKeyPress={e => {
                         if (e.key === 'Enter') {
