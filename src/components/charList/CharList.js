@@ -1,5 +1,4 @@
 import {useState, useEffect, useMemo} from 'react'
-import PropTypes from 'prop-types'
 
 import './charList.scss';
 
@@ -76,7 +75,7 @@ const CharList = props => {
 
     function renderItems(arr) {
         const items = arr.map((item, i) => {
-            const objectFit = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}
+            const style = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}
             let fadeIn = process !== 'loading' ? ' fadeIn' : ''
 
             if (arr.length > 9 && i < arr.length - 9) {
@@ -94,7 +93,7 @@ const CharList = props => {
                         }
                     }}
                     onClick={e => eventOnItem(e, item.id)}>
-                    <img src={item.thumbnail} alt={item.name} style={objectFit}/>
+                    <img src={item.thumbnail} alt={item.name} style={style}/>
                     <div className="char__name">{item.name}</div>
                 </li>
             )
@@ -131,10 +130,6 @@ const CharList = props => {
             <img className="bg-decoration" src={decoration} alt="vision" style={display}/>
         </>
     )
-}
-
-CharList.propTypes = {
-    onCharSelected: PropTypes.func.isRequired
 }
 
 export default CharList

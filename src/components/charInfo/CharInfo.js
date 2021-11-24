@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react'
-import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
 import useMarvelService from '../../services/MarvelService'
@@ -88,10 +87,6 @@ const View = ({data}) => {
             </ul>
         </>
     )
-}
-
-CharInfo.propTypes = {
-    charId: PropTypes.number
 }
 
 export default CharInfo

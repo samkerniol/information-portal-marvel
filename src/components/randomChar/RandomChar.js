@@ -50,7 +50,7 @@ const RandomChar = () => {
 const View = ({data}) => {
     const {name, description, thumbnail, homepage, wiki} = data
 
-    let style
+    let style = thumbnail ? {objectFit: thumbnail.match(/image_not/) ? 'contain' : 'cover'} : ''
 
     const descr = () => {
         if (!description) {
@@ -64,13 +64,9 @@ const View = ({data}) => {
         }
     }
 
-    if (thumbnail) {
-        style = {objectFit: thumbnail.match(/image_not/) ? 'contain' : 'cover'};
-    }
-
     return (
         <div className="randomchar__block fadeIn">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" style={{objectFit: style}}/>
+            <img src={thumbnail} alt="Random character" className="randomchar__img" style={style}/>
             <div className="randomchar__info">
                 <p className="randomchar__name" title={name}>{name.length > 22 ? name.substr(0, 21) + '...' : name}</p>
                 <p className="randomchar__descr">
