@@ -1,0 +1,19 @@
+@media (max-width: 767px) {
+    .app {
+        &__header {
+            flex-direction: column;
+        }
+        &__title {
+            text-align: center;
+        }
+        &__menu {
+            margin-top: 20px;
+            ul {
+                justify-content: center;
+            }
+        }
+        &__line {
+            display: unset;
+        }
+    }
+}

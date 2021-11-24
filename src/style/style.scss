@@ -48,7 +48,7 @@ input::-webkit-inner-spin-button {
 }
 
 .app {
-    width: 1100px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 50px 0 50px 0;
     position: relative;
@@ -88,4 +88,32 @@ main {
 @keyframes fadeIn {
 0% {opacity:0;}
 100% {opacity:1;}
+}
+
+@media (max-width: 1100px) {
+    .app {
+        max-width: 970px;
+    }
+    .button, a {
+        -webkit-tap-highlight-color: transparent;
+    }
+    .button:hover {
+        transform: translateY(0px);
+    }
+}
+
+@media (max-width: 992px) {
+    .app {
+        max-width: 750px;
+    }
+}
+
+@media (max-width: 767px) {
+    .app {
+        max-width: none;
+        padding: 20px 10px;
+    }
+    main {
+        margin-top: 25px;
+    }
 }

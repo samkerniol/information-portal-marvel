@@ -1,6 +1,7 @@
 import {Link, NavLink, useLocation} from 'react-router-dom'
 
 import './appHeader.scss'
+import './media.scss'
 
 const AppHeader = () => {
     const {pathname} = useLocation()
@@ -12,6 +13,7 @@ const AppHeader = () => {
                     <span>Marvel</span> information portal
                 </Link>
             </h1>
+            <hr className='app__line'/>
             <nav className="app__menu">
                 <ul>
                     <li>
