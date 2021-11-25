@@ -1,4 +1,4 @@
-import error from './error.png';
+import error from './error.png'
 
 const ErrorMessage = () => {
     return (
@@ -6,4 +6,4 @@ const ErrorMessage = () => {
     )
 }
 
-export default ErrorMessage;
+export default ErrorMessage

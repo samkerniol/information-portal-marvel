@@ -1,0 +1,34 @@
+@media (max-width: 767px) {
+    .char {
+        &__search {
+            padding: 13px;
+            text-align: center;
+            &-input {
+                margin-right: 0;
+                width: 100%;
+            }
+            &-btn {
+                grid-column: 1/3;
+            }
+            &-wrapper {
+                display: grid;
+                grid-template-columns: minmax(auto, 274px) 101px;
+                column-gap: 24px;
+                align-items: flex-end;
+            }
+            &-msg {
+                grid-column: 1/3;
+                &_found {
+                    grid-column: unset;
+                    text-align: left;
+                    margin-right: 0;
+                }
+            }
+            &-btn {
+                display: grid;
+                grid-template-columns: minmax(auto, 274px) 101px;
+                column-gap: 24px;
+            }
+        }
+    }
+}

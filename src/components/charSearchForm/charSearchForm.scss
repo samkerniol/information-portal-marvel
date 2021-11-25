@@ -20,16 +20,24 @@
                 color: rgba(0, 0, 0, 0.5);
             }
         }
+        &-btn {
+            display: flex;
+            align-items: flex-end;
+            width: 100%;
+            justify-content: space-between;
+        }
         &-msg {
             font-weight: bold;
             font-size: 18px;
             margin-top: 25px;
             color: #9F0013;
+            order: 1;
             &_found {
                 display: inline-block;
                 margin-right: 24px;
-                width: 250px;
+                max-width: 250px;
                 color: #03710E;
+                order: -1;
             }
         }
     }

@@ -1,6 +1,7 @@
 import {useState, useEffect, useMemo} from 'react'
 
-import './charList.scss';
+import './charList.scss'
+import './media.scss'
 
 import useMarvelService from '../../services/MarvelService'
 
@@ -26,9 +27,10 @@ const CharList = props => {
     const [charList, setCharList] = useState([]),
         [newItemLoading, setNewItemLoading] = useState(false),
         [offset, setOffset] = useState(210),
-        [charEnded, setCharEnded] = useState(false),
         [charId, setCharId] = useState(''),
-        {getAllItemsData, process, setProcess} = useMarvelService()
+        {getAllItemsData, process, setProcess} = useMarvelService(),
+        screenWidth = window.screen.width,
+        numberOfHeroes = screenWidth <= 992 ? 3 : screenWidth <= 1100 ? 6 : 9
     
     useEffect(() => {
         onRequest(offset, true)
@@ -36,24 +38,17 @@ const CharList = props => {
     }, [])
 
     const onRequest = (offset, initial) => {
-        initial ? setNewItemLoading(false) : setNewItemLoading(true) 
-        
-        getAllItemsData('characters', 9, offset)
+        initial ? setNewItemLoading(false) : setNewItemLoading(true)
+
+        getAllItemsData('characters', numberOfHeroes, offset)
             .then(onCharListLoaded)
             .then(() => setProcess('confirmed'))
     }
 
     const onCharListLoaded = newCharList => {
-        let ended = false
-
-        if (newCharList.length < 9) {
-            ended = true
-        }
-
         setCharList(charList => [...charList, ...newCharList])
         setNewItemLoading(false)
-        setOffset(offset => offset  + 9)
-        setCharEnded(ended)
+        setOffset(offset => offset  + numberOfHeroes)
     }
 
     const eventOnItem = (e, id) => {
@@ -70,15 +65,19 @@ const CharList = props => {
 
             props.onCharSelected(id)
             setCharId(id)
+
+            if (screenWidth <= 767) {
+                window.scrollTo(0, 600)
+            }
         }
     }
 
     function renderItems(arr) {
         const items = arr.map((item, i) => {
-            const style = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}
+            const style = {objectFit: item.thumbnail.match(/image_not/) ? 'unset' : 'cover'}     
             let fadeIn = process !== 'loading' ? ' fadeIn' : ''
 
-            if (arr.length > 9 && i < arr.length - 9) {
+            if (arr.length > numberOfHeroes && i < arr.length - numberOfHeroes) {
                 fadeIn = ''
             }
             
@@ -97,7 +96,7 @@ const CharList = props => {
                     <div className="char__name">{item.name}</div>
                 </li>
             )
-        });
+        })
 
         return (
             <ul className="char__grid">
@@ -110,8 +109,6 @@ const CharList = props => {
         return setContent(process, () => renderItems(charList), newItemLoading)
         // eslint-disable-next-line
     }, [process])
-
-    const display = {display: charEnded || ('loading' === process && !newItemLoading) ? 'none' : 'block'}
 
     return (
         <>
@@ -127,7 +124,7 @@ const CharList = props => {
                     </button>
                 : null}
             </div>
-            <img className="bg-decoration" src={decoration} alt="vision" style={display}/>
+            {process !== 'loading' || newItemLoading ? <img className="bg-decoration" src={decoration} alt="vision"/> : null}
         </>
     )
 }

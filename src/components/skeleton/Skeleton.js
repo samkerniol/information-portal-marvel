@@ -1,4 +1,4 @@
-import './skeleton.scss';
+import './skeleton.scss'
 
 const Skeleton = () => {
     return (
@@ -17,4 +17,4 @@ const Skeleton = () => {
     )
 }
 
-export default Skeleton;
+export default Skeleton

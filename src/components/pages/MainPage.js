@@ -33,11 +33,11 @@ const MainPage = () => {
                 </ErrorBoundary>
 
                 <ErrorBoundary>
-                    <div style={{position: 'sticky', top: 0}}>
+                    <div className='char__block'>
                         <CharInfo charId={selectedChar}/>
                         <CharSearchForm/>
                     </div>
-                </ErrorBoundary>
+                </ErrorBoundary>              
             </div>
         </>
     )

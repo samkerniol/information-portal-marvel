@@ -90,11 +90,17 @@ main {
 100% {opacity:1;}
 }
 
+@media (max-width: 1480px) {
+    .bg-decoration {
+        display: none;
+    }
+}
+
 @media (max-width: 1100px) {
     .app {
         max-width: 970px;
     }
-    .button, a {
+    .button, a, li {
         -webkit-tap-highlight-color: transparent;
     }
     .button:hover {

@@ -1,0 +1,22 @@
+@media (max-width: 1100px) {
+    .char {
+        &__block {
+            max-width: 425px;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .char {
+        &__block {
+            grid-row: 1;
+            position: unset;
+            margin-bottom: 30px;
+            width: 100%;
+            margin: 0 auto 30px auto;
+        }
+        &__info {
+            padding: 13px;
+        }
+    }
+}

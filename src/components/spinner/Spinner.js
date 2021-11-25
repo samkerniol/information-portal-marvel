@@ -1,11 +1,7 @@
-import spinner from './spinner.gif';
+import spinner from './spinner.gif'
 
 const Spinner = () => {
-    return (
-        <div className='randomchar__block' style={{position: 'relative'}}>
-            <img src={spinner} alt='spinner' style={{position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}/>
-        </div>
-    )
+    return <img src={spinner} alt='spinner' style={{display: 'block', margin: '0 auto'}}/>
 }
 
-export default Spinner;
+export default Spinner

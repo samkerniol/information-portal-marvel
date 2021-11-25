@@ -5,6 +5,7 @@ import useMarvelService from '../../services/MarvelService'
 import setContent from '../../utils/setContent'
 
 import './charInfo.scss'
+import './media.scss'
 
 const CharInfo = props => {
     const [char, setChar] = useState(null),

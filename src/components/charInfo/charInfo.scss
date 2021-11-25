@@ -17,6 +17,10 @@
             margin-top: 30px;
         }
     }
+    &__block {
+        position: sticky;
+        top: 0;
+    }
     &__basics {
         display: grid;
         grid-template-columns: 150px auto;

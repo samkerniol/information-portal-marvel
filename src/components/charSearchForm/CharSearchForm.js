@@ -1,10 +1,11 @@
-import {useForm} from "react-hook-form";
+import {useForm} from "react-hook-form"
 import {useState, useCallback} from 'react'
 import {Link} from 'react-router-dom'
 
 import useMarvelService from '../../services/MarvelService'
 
 import './charSearchForm.scss'
+import './media.scss'
 
 const CharSearchForm = () => {
     const {register, formState: {errors}, handleSubmit} = useForm(),
@@ -31,12 +32,12 @@ const CharSearchForm = () => {
     const renderResult = () => {
         if (charId) {
             return (
-                <>
-                    <div className='char__search-msg char__search-msg_found fadeIn'>There is! Visit {charName} page?</div>
+                <div className='char__search-btn'>
                     <Link to={`/characters/${charId}`} className='button button__secondary fadeIn'>
                         <div className="inner">TO PAGE</div>
                     </Link>
-                </>
+                    <div className='char__search-msg char__search-msg_found fadeIn'>There is! Visit {charName} page?</div>
+                </div>
             )
         } else if (charId === null) {
             return <div className='char__search-msg'>The character was not found. Check the name and try again</div>
@@ -55,10 +56,10 @@ const CharSearchForm = () => {
                 <button className='button button__main' type="submit">
                     <div className="inner">FIND</div>
                 </button>
+                {renderResult()}
             </div>
             {errors.name?.type === 'required' && <div className='char__search-msg'>This field is required!</div>}
             {errors.name?.type === 'pattern' && <div className='char__search-msg'>Only latin letters!</div>}
-            {renderResult()}
         </form>
     )
 }
