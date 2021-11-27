@@ -2,6 +2,7 @@ import {useHistory} from "react-router"
 import {Helmet} from 'react-helmet'
 
 import './singlePageLayout.scss'
+import './media.scss'
 
 const SingleCharacterLayout = ({data}) => {
     const {name, description, thumbnail} = data,

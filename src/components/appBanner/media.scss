@@ -1,0 +1,16 @@
+@media (max-width: 767px) {
+    .app {
+        &__banner {
+            grid-template-columns: auto;
+            padding: 0;
+            &-text {
+                padding-left: 0;
+                font-size: 20px;
+                text-align: center;
+            }
+            img {
+                display: none;
+            }
+        }
+    }
+}

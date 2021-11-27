@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 
 import './comicsList.scss'
+import './media.scss'
 
 import useMarvelService from '../../services/MarvelService'
 import Spinner from '../spinner/Spinner'
@@ -24,7 +25,9 @@ const ComicsList = () => {
     const [comicsItems, setComicsItems] = useState([]),
         [newItemLoading, setNewItemLoading] = useState(false),
         [offset, setOffset] = useState(210),
-        {getAllItemsData, process, setProcess} = useMarvelService()
+        {getAllItemsData, process, setProcess} = useMarvelService(),
+        screenWidth = window.screen.width,
+        numberOfComics = screenWidth <= 1100 ? 9 : 8
 
     useEffect(() => {
         onRequest(offset, true)
@@ -34,9 +37,13 @@ const ComicsList = () => {
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true) 
 
-        getAllItemsData('comics', 8, offset)
+        getAllItemsData('comics', numberOfComics, offset)
             .then(onComicsItemsLoaded)
             .then(() => setProcess('confirmed'))
+
+        if (screenWidth <= 767) {
+            window.scrollTo(0, 0)
+        }
     }
 
     const onComicsItemsLoaded = newComicsItems => {
@@ -49,7 +56,7 @@ const ComicsList = () => {
         const items = arr.map(({id, title, thumbnail, price}, i) => {
             let fadeIn = process !== 'loading' ? ' fadeIn' : ''
 
-            if (arr.length > 8 && i < arr.length - 8) {
+            if (arr.length > numberOfComics && i < arr.length - numberOfComics) {
                 fadeIn = ''
             }
 
