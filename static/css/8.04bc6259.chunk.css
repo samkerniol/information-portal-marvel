@@ -1,2 +1,0 @@
-.comics__items{display:grid;grid-template-columns:repeat(4,224px);grid-column-gap:67px;grid-row-gap:55px;justify-content:center}.comics__items img{width:225px;height:346px;filter:drop-shadow(5px 5px 10px rgba(0,0,0,.25))}.comics__item{transition:transform .3s;cursor:pointer}.comics__item-title{margin-top:10px;font-weight:700;font-size:14px;line-height:16px}.comics__item-price{margin-top:5px;color:rgba(0,0,0,.6);font-weight:700;font-size:14px}.comics__item:hover{transform:translateY(-5px)}
-/*# sourceMappingURL=8.04bc6259.chunk.css.map */

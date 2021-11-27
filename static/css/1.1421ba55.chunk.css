@@ -1,0 +1,2 @@
+.app__banner{width:100%;background-color:#232222;height:100px;padding:0 25px 0 45px;display:grid;grid-template-columns:152px auto 133px;margin-bottom:49px}.app__banner-text{font-weight:700;font-size:24px;line-height:32px;color:#fff;padding-left:83px;padding-top:18px}@media(max-width:767px){.app__banner{grid-template-columns:auto;padding:0}.app__banner-text{padding-left:0;font-size:20px;text-align:center}.app__banner img{display:none}}
+/*# sourceMappingURL=1.1421ba55.chunk.css.map */
